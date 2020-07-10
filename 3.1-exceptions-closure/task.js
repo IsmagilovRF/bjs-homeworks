@@ -32,28 +32,26 @@ class Triangle {
     }
 
     getPerimeter() {
-        try {
-            if (this.controlTriangl()) {
                 return parseFloat(this.a + this.b + this.c);
-            }
-        } catch (err) {
-            return err;
-        }
     }
 
     getArea() {
-        try {
-            if (this.controlTriangl()) {
                 const pp = 0.5 * this.getPerimeter();
                 const area = (Math.sqrt(pp * (pp - this.a) * (pp - this.b) * (pp - this.c))).toFixed(3);
                 return parseFloat(area);
-            }
-        } catch (err) {
-            return err;
-        }
     }
 }
 
 function getTriangle(a,b,c) {
-    return new Triangle(a, b, c);
+    try {
+        const  triangle  = new Triangle(a, b, c);
+        if (triangle.controlTriangl()) {
+            return triangle;
+        }
+    } catch (err) {
+        badTriangle  = new Triangle(a, b, c);
+        badTriangle.getArea = function () { return 'Ошибка! Треугольник не существует'}
+        badTriangle.getPerimeter = function () {return 'Ошибка! Треугольник не существует'}
+        return badTriangle;
+       }
 }
