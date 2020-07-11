@@ -16,21 +16,9 @@ function sum(...args) {
 }
 //console.log("sum(1,2,3,4) = " + sum(1,2,3,4));
 
-function compareArrays( arr1, arr2 ) {
-    if (arr1.length !== arr2.length) {
-       // console.log(`разные длины массивов ${arr1.length} , ${arr2.length} `);
-        return false; 
-    } else {
-        return arr1.every((currentValue, index) => arr2[index] === currentValue);
-    }
+function compareArrays(a1, a2) {
+    return a1.length == a2.length && a1.every((v,i)=>v === a2[i])
 }
-//function compare(a1, a2) {
-//    return a1.length == a2.length && a1.every((v,i)=>v === a2[i])
-//}
-
-
-
-
 // проверим)))
 console.log('первый тест  - compareArrays([6,2,3,4,5],[1,2,3,4,5]');
 console.log('compareArrays = ' + compareArrays([1,2,3,4,6],[1,2,3,4,5]));
@@ -43,31 +31,21 @@ console.log('____________________________________________________________')
 
 function memorize(fn, limit){
     let memory = [];
-
     return function(...args) {
-        let  ddd = [];
-        ddd = memory.find( (memory) => ( compareArrays(memory.args, args) ) );
-        if (ddd) {
-            memory.push(ddd);
-            console.log('Значение функции из памяти:');
-        } else {
-            memory.push({args: args, result: fn(...args)});
-            console.log('Функция вызвана не из памяти:');
-        }
-
+        let fnArgs = fn(...args);
+        if (!memory.find( (memory) => (compareArrays(memory.args, args)))) {
+            memory.push({args: args, result: fnArgs});
+            console.log('result не из memory:');
+        } else console.log('для result значение нашли в memory:');
         if (memory.length > limit) {
             memory.shift();
             console.log('memory.length > limit');
         }
-        return fn(...args);
+        return fnArgs;
     }
-    
-
 }
 
-
-const mSum = memorize(sum,5); // 5 результатов может хранится в памяти
-
+const mSum = memorize(sum,3); // 3 результатa может хранится в памяти
 
 //проверка
 console.log('1 вызов -----------------------------const mSum = memorize(sum,3); mSum(1, 4) = ' + mSum(1, 4)); // 7
