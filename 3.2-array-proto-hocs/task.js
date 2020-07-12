@@ -32,11 +32,16 @@ console.log('____________________________________________________________')
 function memorize(fn, limit){
     let memory = [];
     return function(...args) {
+        
+        if (memory.find( (memory) => (compareArrays(memory.args, args)))) {
+            let index = memory.findIndex((memory) => (compareArrays(memory.args, args)));
+            console.log('используем result из памяти (из массива memory): ' + memory[index].result);
+            return memory[index].result;
+        } 
         let fnArgs = fn(...args);
-        if (!memory.find( (memory) => (compareArrays(memory.args, args)))) {
-            memory.push({args: args, result: fnArgs});
-            console.log('result не из memory:');
-        } else console.log('для result значение нашли в memory:');
+        console.log('требуется вызов функции  - для расчета result - результат расчета: ' + fnArgs);
+        memory.push({args: args, result: fnArgs});
+
         if (memory.length > limit) {
             memory.shift();
             console.log('memory.length > limit');
