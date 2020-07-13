@@ -32,11 +32,10 @@ console.log('____________________________________________________________')
 function memorize(fn, limit){
     let memory = [];
     return function(...args) {
-        
-        if (memory.find( (memory) => (compareArrays(memory.args, args)))) {
-            let index = memory.findIndex((memory) => (compareArrays(memory.args, args)));
-            console.log('используем result из памяти (из массива memory): ' + memory[index].result);
-            return memory[index].result;
+        let elementOfMemoryFromFind = memory.find( (memory) => (compareArrays(memory.args, args)));
+        if (elementOfMemoryFromFind) {
+            console.log('используем result из памяти (из массива memory): ' + elementOfMemoryFromFind.result);
+            return elementOfMemoryFromFind.result;
         } 
         let fnArgs = fn(...args);
         console.log('требуется вызов функции  - для расчета result - результат расчета: ' + fnArgs);
